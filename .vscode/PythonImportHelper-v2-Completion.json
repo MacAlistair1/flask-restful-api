@@ -1,0 +1,173 @@
+[
+    {
+        "label": "MongoEngine",
+        "importPath": "flask_mongoengine",
+        "description": "flask_mongoengine",
+        "isExtraImport": true,
+        "detail": "flask_mongoengine",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "Flask",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "Bus",
+        "importPath": "database.models",
+        "description": "database.models",
+        "isExtraImport": true,
+        "detail": "database.models",
+        "documentation": {}
+    },
+    {
+        "label": "Resource",
+        "importPath": "flask_restful",
+        "description": "flask_restful",
+        "isExtraImport": true,
+        "detail": "flask_restful",
+        "documentation": {}
+    },
+    {
+        "label": "Api",
+        "importPath": "flask_restful",
+        "description": "flask_restful",
+        "isExtraImport": true,
+        "detail": "flask_restful",
+        "documentation": {}
+    },
+    {
+        "label": "random",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "random",
+        "description": "random",
+        "detail": "random",
+        "documentation": {}
+    },
+    {
+        "label": "string",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "string",
+        "description": "string",
+        "detail": "string",
+        "documentation": {}
+    },
+    {
+        "label": "initialize_db",
+        "importPath": "database.db",
+        "description": "database.db",
+        "isExtraImport": true,
+        "detail": "database.db",
+        "documentation": {}
+    },
+    {
+        "label": "initialize_routes",
+        "importPath": "resources.routes",
+        "description": "resources.routes",
+        "isExtraImport": true,
+        "detail": "resources.routes",
+        "documentation": {}
+    },
+    {
+        "label": "initialize_db",
+        "kind": 2,
+        "importPath": "database.db",
+        "description": "database.db",
+        "peekOfCode": "def initialize_db(app):\n    db.init_app(app)",
+        "detail": "database.db",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "kind": 5,
+        "importPath": "database.db",
+        "description": "database.db",
+        "peekOfCode": "db = MongoEngine()\ndef initialize_db(app):\n    db.init_app(app)",
+        "detail": "database.db",
+        "documentation": {}
+    },
+    {
+        "label": "Bus",
+        "kind": 6,
+        "importPath": "database.models",
+        "description": "database.models",
+        "peekOfCode": "class Bus(db.Document):\n    number_plate = db.StringField(required=True, unique=True)\n    manufacturer = db.StringField(required=True)\n    model = db.StringField(required=True)\n    year = db.IntField(required=True)\n    capcity = db.IntField(required=True)\n    def create(self):\n            self.save()",
+        "detail": "database.models",
+        "documentation": {}
+    },
+    {
+        "label": "BusesApi",
+        "kind": 6,
+        "importPath": "resources.bus",
+        "description": "resources.bus",
+        "peekOfCode": "class BusesApi(Resource):\n    def get(self):\n        buses = Bus.objects().to_json()\n        return Response(buses, mimetype=\"application/json\", status=200)\n    def post(self):\n        body = request.get_json()\n        body['number_plate'] = \"123456\"\n        bus = Bus(**body).save()\n        bus = Bus.objects.get(id=bus.id).to_json()\n        return Response(bus, mimetype=\"application/json\", status=200)",
+        "detail": "resources.bus",
+        "documentation": {}
+    },
+    {
+        "label": "BusApi",
+        "kind": 6,
+        "importPath": "resources.bus",
+        "description": "resources.bus",
+        "peekOfCode": "class BusApi(Resource):\n    def get(self, id):\n        bus = Bus.objects.get(id=id).to_json()\n        return Response(bus, mimetype=\"application/json\", status=200)\n    def put(self, id):\n        body = request.get_json()\n        Bus.objects.get(id=id).update(**body)\n        return '', 200\n    def delete(self, id):\n        Bus.objects.get(id=id).delete()",
+        "detail": "resources.bus",
+        "documentation": {}
+    },
+    {
+        "label": "initialize_routes",
+        "kind": 2,
+        "importPath": "resources.routes",
+        "description": "resources.routes",
+        "peekOfCode": "def initialize_routes(api):\n    api.add_resource(BusesApi, '/api/buses')\n    api.add_resource(BusApi, '/api/buses/<id>')",
+        "detail": "resources.routes",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "app = Flask(__name__)\napi = Api(app)\napp.config['MONGODB_SETTINGS'] = {\n    'host': 'mongodb://localhost/buses'\n}\ninitialize_db(app)\ninitialize_routes(api)\napp.run()",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "api",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "api = Api(app)\napp.config['MONGODB_SETTINGS'] = {\n    'host': 'mongodb://localhost/buses'\n}\ninitialize_db(app)\ninitialize_routes(api)\napp.run()",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "app.config['MONGODB_SETTINGS']",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "app.config['MONGODB_SETTINGS'] = {\n    'host': 'mongodb://localhost/buses'\n}\ninitialize_db(app)\ninitialize_routes(api)\napp.run()",
+        "detail": "app",
+        "documentation": {}
+    }
+]
